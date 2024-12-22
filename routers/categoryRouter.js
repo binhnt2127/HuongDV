@@ -193,17 +193,19 @@ router.get("/:id", checkRequire, async (req, res) => {
 router.post("/add", upload.single("thumbnail"), async function (req, res) {
   try {
     const check = await Category.find({ name: req.body.name });
-    if (check == "") {
-      const upload = await imgbbUploader(process.env.IMGBB_KEY, req.file.path);
+    if (check == '') {
+      // const upload = await imgbbUploader(process.env.IMGBB_KEY, req.file.path);
+      // console.log(upload);
       await Category.create({
         name: req.body.name,
-        thumbnail: upload.url,
+        thumbnail: req.file.path,
       });
       res.status(200).json({ mes: "Thêm thành công" });
     } else {
       res.status(400).json({ mess: "Thư mục đã tồn tại" });
     }
   } catch (error) {
+    console.log(208, error);
     res.status(500).json({ mess: "Lỗi server" });
   }
 });

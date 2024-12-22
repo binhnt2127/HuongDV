@@ -4,7 +4,6 @@ const ProductModel = require("../models/product");
 const ProductCodeModel = require("../models/productCode");
 const evaluateModel = require("../models/evaluateModel");
 const CartModel = require("../models/cartModel");
-const category = require("../models/category");
 const { checkLogin, checkUser } = require("../middleWare/checkLogin");
 const checkRequire = require("../middleWare/checkRequire");
 const multer = require("multer");
@@ -22,10 +21,11 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 const imgbbUploader = require("imgbb-uploader");
+const CategoryModel = require("../models/category");
 
 router.get("/detail/:id", checkRequire, async (req, res) => {
   try {
-    const listcategory = await category.find();
+    const listcategory = await CategoryModel.find();
     const listcode = await ProductCodeModel.findOne({
       _id: req.params.id,
     }).populate("categoryID");
